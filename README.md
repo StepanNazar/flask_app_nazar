@@ -1,2 +1,2 @@
 # flask_app_nazar
-University labs
+University labs for "Web development with Python"
