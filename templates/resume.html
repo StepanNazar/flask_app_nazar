@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Me</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#education">Education</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#technologies">Technologies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <header class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Stepan Nazar</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <a href="/contact" class="btn btn-sm btn-outline-secondary">Contact</a>
+                    </div>
+                </div>
+            </header>
+
+            <section id="about">
+                <h2>About Me</h2>
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <p>A highly motivated and detail-oriented software engineering student at Carpathian National University with a strong foundation in backend development and machine learning. Passionate about building scalable and efficient applications. Seeking to leverage my skills and experience in a challenging software engineering role.</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <img src="/static/images/photo.jpg" alt="John Doe" class="profile-photo img-fluid rounded-circle shadow-lg">
+                    </div>
+                </div>
+            </section>
+
+            <section id="education">
+                <h2>Education</h2>
+                <div class="education-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center">
+                            <img src="/static/images/university.png" alt="University Icon" class="img-fluid">
+                        </div>
+                        <div class="col-md-10">
+                            <div class="education-content">
+                                <h4 class="education-title">Bachelor of Science in Software Engineering</h4>
+                                <h5 class="education-institution">Carpathian National University</h5>
+                                <p class="education-period">2023 - 2027 (Expected)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills">
+                <h2>Skills</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="skill-item">
+                            <h5>Backend Development</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="skill-item">
+                            <h5>Machine Learning</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="skill-item">
+                            <h5>Databases</h5>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="technologies">
+                <h2>Technologies</h2>
+
+                <div class="mb-4">
+                    <h5 class="text-muted mb-3">Backend & Frameworks</h5>
+                    <div class="d-flex flex-wrap">
+                        <span class="badge bg-primary m-1">Python</span>
+                        <span class="badge bg-primary m-1">Flask</span>
+                        <span class="badge bg-primary m-1">REST API</span>
+                        <span class="badge bg-primary m-1">APIFlask</span>
+                        <span class="badge bg-primary m-1">Flask-SQLAlchemy</span>
+                        <span class="badge bg-primary m-1">SQL</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="text-muted mb-3">Data Science & ML</h5>
+                    <div class="d-flex flex-wrap">
+                        <span class="badge bg-success m-1">NumPy</span>
+                        <span class="badge bg-success m-1">Pandas</span>
+                        <span class="badge bg-success m-1">Keras</span>
+                        <span class="badge bg-success m-1">Scikit-learn</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="text-muted mb-3">Frontend & Web</h5>
+                    <div class="d-flex flex-wrap">
+                        <span class="badge bg-warning m-1">HTML</span>
+                        <span class="badge bg-warning m-1">CSS</span>
+                        <span class="badge bg-warning m-1">JavaScript</span>
+                        <span class="badge bg-warning m-1">Angular</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="text-muted mb-3">Tools</h5>
+                    <div class="d-flex flex-wrap">
+                        <span class="badge bg-info m-1">Git</span>
+                        <span class="badge bg-info m-1">Black</span>
+                        <span class="badge bg-info m-1">Ruff</span>
+                        <span class="badge bg-info m-1">Pyright</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="projects">
+                <h2>Projects</h2>
+                <div class="projects-container">
+                    <div id="projectsCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#projectsCarousel" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#projectsCarousel" data-bs-slide-to="1"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="card project-card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Newsgrouper</h3>
+                                        <p class="card-text">A program that reads news from specified sources, groups them by topic, and shows a summary. Advanced ML algorithms for content clustering and analysis.</p>
+                                        <div class="mt-3">
+                                            <h6 class="text-muted mb-2">Technologies Used:</h6>
+                                            <div class="d-flex flex-wrap">
+                                                <span class="badge bg-primary m-1">Flask</span>
+                                                <span class="badge bg-primary m-1">APIFlask</span>
+                                                <span class="badge bg-primary m-1">Flask-SQLAlchemy</span>
+                                                <span class="badge bg-success m-1">Scikit-learn</span>
+                                                <span class="badge bg-warning m-1">HTML</span>
+                                                <span class="badge bg-warning m-1">CSS</span>
+                                                <span class="badge bg-warning m-1">JavaScript</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card project-card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">City-Report</h3>
+                                        <p class="card-text">A program for publishing and discussing city problems on a map. Interactive platform for community engagement and issue tracking with geolocation features.</p>
+                                        <div class="mt-3">
+                                            <h6 class="text-muted mb-2">Technologies Used:</h6>
+                                            <div class="d-flex flex-wrap">
+                                                <span class="badge bg-primary m-1">Flask</span>
+                                                <span class="badge bg-primary m-1">APIFlask</span>
+                                                <span class="badge bg-primary m-1">Flask-SQLAlchemy</span>
+                                                <span class="badge bg-warning m-1">Angular</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev custom-carousel-control" type="button" data-bs-target="#projectsCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next custom-carousel-control" type="button" data-bs-target="#projectsCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+{% endblock %}

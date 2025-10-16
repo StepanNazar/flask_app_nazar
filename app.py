@@ -1,11 +1,17 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 
 @app.route("/")
-def main() -> str:
-    return "Hello world!"
+@app.route("/resume")
+def resume() -> str:
+    return render_template("resume.html", title="Resume")
+
+
+@app.route("/contact")
+def contact() -> str:
+    return render_template("contact.html", title="Contact")
 
 
 if __name__ == "__main__":
