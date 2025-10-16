@@ -30,7 +30,7 @@
                 <h1 class="h2">Stepan Nazar</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group me-2">
-                        <a href="/contact" class="btn btn-sm btn-outline-secondary">Contact</a>
+                        <a href="{{ url_for('contact') }}" class="btn btn-sm btn-outline-secondary">Contact</a>
                     </div>
                 </div>
             </header>
@@ -42,7 +42,7 @@
                         <p>A highly motivated and detail-oriented software engineering student at Carpathian National University with a strong foundation in backend development and machine learning. Passionate about building scalable and efficient applications. Seeking to leverage my skills and experience in a challenging software engineering role.</p>
                     </div>
                     <div class="col-md-4 text-center">
-                        <img src="/static/images/photo.jpg" alt="John Doe" class="profile-photo img-fluid rounded-circle shadow-lg">
+                        <img src="{{ url_for('static', filename='images/photo.jpg')}}" alt="Stepan Nazar" class="profile-photo img-fluid rounded-circle shadow-lg">
                     </div>
                 </div>
             </section>
@@ -52,7 +52,7 @@
                 <div class="education-card">
                     <div class="row align-items-center">
                         <div class="col-md-2 text-center">
-                            <img src="/static/images/university.png" alt="University Icon" class="img-fluid">
+                            <img src="{{ url_for('static', filename='images/university.png')}}" alt="University Icon" class="img-fluid">
                         </div>
                         <div class="col-md-10">
                             <div class="education-content">
