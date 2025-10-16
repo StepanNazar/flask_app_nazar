@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 text-dark fw-bold mb-3">Get In Touch</h1>
+        <p class="lead text-muted">Let's connect and discuss opportunities</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-lg-4 col-md-6">
+            <div class="card contact-card h-100 border-0 shadow-lg">
+                <div class="card-body text-center p-4">
+                    <h5 class="card-title fw-bold text-dark">Email</h5>
+                    <p class="card-text text-muted mb-3">Drop me a line anytime</p>
+                    <a href="mailto:stepan.nazar@example.com" class="btn btn-outline-primary btn-sm rounded-pill">
+                        stepan.nazar@example.com
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card contact-card h-100 border-0 shadow-lg">
+                <div class="card-body text-center p-4">
+                    <h5 class="card-title fw-bold text-dark">Phone</h5>
+                    <p class="card-text text-muted mb-3">Call me for urgent matters</p>
+                    <a href="tel:+1234567890" class="btn btn-outline-success btn-sm rounded-pill">
+                        +1 (234) 567-890
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+            <div class="card contact-card h-100 border-0 shadow-lg">
+                <div class="card-body text-center p-4">
+                    <h5 class="card-title fw-bold text-dark">Location</h5>
+                    <p class="card-text text-muted mb-3">Find me here</p>
+                    <address class="mb-0">
+                        <small class="text-muted">123 Main Street<br>Anytown, Ukraine</small>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-white border-0 text-center py-4">
+                    <h2 class="h4 mb-0 text-dark fw-bold">Send Message</h2>
+                </div>
+                <div class="card-body p-5">
+                    <form class="contact-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                    <label for="name">Full Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                                    <label for="email">Email Address</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+                                    <label for="subject">Subject</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="message" style="height: 120px" placeholder="Your message..." required></textarea>
+                                    <label for="message">Your Message</label>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
+                                    Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
