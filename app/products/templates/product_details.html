@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Product № {{product["id"]}} - {{product["name"]}}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+            <div class="content-section">
+                <div class="page-header text-center mb-4">
+                    <span class="badge bg-primary fs-6 mb-2">Product #{{ product["id"] }}</span>
+                    <h1 class="page-title display-5 mb-3">
+                        <i class="fas fa-box text-primary me-3"></i>{{ product["name"] }}
+                    </h1>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        {% if product.get('content') %}
+                            <div class="mb-4">
+                                <h4 class="text-muted mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>Description
+                                </h4>
+                                <p class="fs-5 lh-lg">{{ product.get('content') }}</p>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-file-alt fa-2x text-muted mb-3"></i>
+                                <p class="text-muted fs-5">No description available for this product.</p>
+                            </div>
+                        {% endif %}
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                                    <a href="{{ url_for('products.products') }}"
+                                       class="btn btn-secondary btn-lg">
+                                        <i class="fas fa-arrow-left me-2"></i>Back to Products
+                                    </a>
+                                    <button class="btn btn-primary btn-lg" type="button">
+                                        <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-clock me-1"></i>
+                        Last updated: <span class="fw-medium">Today</span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
