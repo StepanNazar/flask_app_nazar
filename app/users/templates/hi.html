@@ -1,24 +1,58 @@
 {% extends "base.html" %}
 {% block title %}Hello, {{ name | lower}}!{% endblock %}
 
-
 {% block content %}
-    <nav>
-        <ul>
-            <li>
-                <a href="{{ url_for('users.greetings', name='John', age=30) }}">Greet John</a>
-            </li>
-            <li>
-                <a href="{{ url_for('users.admin') }}">Admin</a>
-            </li>
-        </ul>
-    </nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <nav class="mb-4">
+                <ul class="nav nav-pills justify-content-center">
+                    <li class="nav-item greetings-nav-item">
+                        <a class="nav-link" href="{{ url_for('users.greetings', name='John', age=30) }}">
+                            <i class="fas fa-user me-2"></i>Greet John
+                        </a>
+                    </li>
+                    <li class="nav-item greetings-nav-item">
+                        <a class="nav-link" href="{{ url_for('users.admin') }}">
+                            <i class="fas fa-cog me-2"></i>Admin
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-    <h1>Hello:) </h1>
-    {% if name %}
-        <h1>User: {{ name }}</h1>
-    {% else %}
-        <h1>User: Guest</h1>
-    {% endif %}
-    <p>Age: {{ age }}</p>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <div class="user-greeting text-center">
+                        <h1 class="display-4 mb-3">
+                            <i class="fas fa-hand-wave me-3"></i>Hello!
+                        </h1>
+
+                        <div class="user-info">
+                            {% if name %}
+                                <div class="card bg-light bg-opacity-20 border-0 mb-3">
+                                    <div class="card-body">
+                                        <h2 class="card-title mb-2">
+                                            <i class="fas fa-user-circle me-2"></i>User: {{ name }}
+                                        </h2>
+                                        <p class="card-text fs-5 mb-0">
+                                            <i class="fas fa-birthday-cake me-2"></i>Age: {{ age }}
+                                        </p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="card bg-light bg-opacity-20 border-0">
+                                    <div class="card-body">
+                                        <h2 class="card-title">
+                                            <i class="fas fa-user-slash me-2"></i>User: Guest
+                                        </h2>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
