@@ -9,5 +9,5 @@
 
 <p>{{ product.get('content') }}</p>
 
-    <a href="/products">Return</a>
+    <a href="{{ url_for("products.products") }}">Return</a>
 {% endblock %}
