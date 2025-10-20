@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Hello, {{ name | lower}}!{% endblock %}
+
+
+{% block content %}
+    <nav>
+        <ul>
+            <li>
+                <a href="{{ url_for('greetings', name='John', age=30) }}">Greet John</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin') }}">Admin</a>
+            </li>
+        </ul>
+    </nav>
+
+    <h1>Hello:) </h1>
+    {% if name %}
+        <h1>User: {{ name }}</h1>
+    {% else %}
+        <h1>User: Guest</h1>
+    {% endif %}
+    <p>Age: {{ age }}</p>
+{% endblock %}
