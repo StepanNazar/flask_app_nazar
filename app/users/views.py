@@ -44,9 +44,25 @@ def logout():
 @users_bp.route("/profile")
 def profile():
     if "username" in session:
-        return render_template("profile.html", username=session["username"])
+        color_scheme = request.cookies.get("color_scheme", "light")
+        response = make_response(
+            render_template("profile.html", username=session["username"], color_scheme=color_scheme)
+        )
+        response.set_cookie("color_scheme", color_scheme, max_age=60*60*24*365) # update expiration date
+        return response
     flash("Please login first!", "danger")
     return redirect(url_for("users.login"))
+
+@users_bp.route("/set-color-scheme/<scheme>")
+def set_color_scheme(scheme):
+    if scheme not in ["light", "dark"]:
+        flash("Invalid color scheme!", "danger")
+        return redirect(url_for("users.profile"))
+
+    response = make_response(redirect(url_for("users.profile")))
+    response.set_cookie("color_scheme", scheme, max_age=60*60*24*365)
+    flash(f"Color scheme changed to {scheme}!", "success")
+    return response
 
 @users_bp.route("/add-cookie", methods=["POST"])
 def add_cookie():
