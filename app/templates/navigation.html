@@ -7,10 +7,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('resume') }}">Resume</a>
+                    <a class="nav-link" href="{{ url_for('resume.resume') }}">Resume</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('contact') }}">Contacts</a>
+                    <a class="nav-link" href="{{ url_for('users.greetings') }}">Hello</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('users.admin') }}">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('products.products') }}">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('resume.contact') }}">Contacts</a>
                 </li>
             </ul>
         </div>
