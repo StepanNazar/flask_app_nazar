@@ -1,4 +1,12 @@
-from flask import render_template, request, redirect, url_for, flash, session
+from flask import (
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash,
+    session,
+    make_response,
+)
 from . import users_bp
 
 
@@ -39,3 +47,38 @@ def profile():
         return render_template("profile.html", username=session["username"])
     flash("Please login first!", "danger")
     return redirect(url_for("users.login"))
+
+@users_bp.route("/add-cookie", methods=["POST"])
+def add_cookie():
+    cookie_name = request.form.get("cookie_name")
+    cookie_value = request.form.get("cookie_value")
+    cookie_expires = request.form.get("cookie_expires")
+    response = make_response(redirect(url_for("users.profile")))
+    if cookie_name and cookie_value and cookie_expires:
+        if cookie_name in request.cookies.keys():
+            flash(f"Cookie '{cookie_name}' already exists!", "warning")
+        else:
+            response.set_cookie(cookie_name, cookie_value, max_age=int(cookie_expires))
+            flash(f"Cookie '{cookie_name}' added!", "success")
+    else:
+        flash("Please fill out the form!", "danger")
+    return response
+
+@users_bp.route("/delete-cookie", methods=["POST"])
+def delete_cookie():
+    cookie_name = request.form.get("cookie_name")
+    response = make_response(redirect(url_for("users.profile")))
+    if cookie_name:
+        response.delete_cookie(cookie_name)
+        flash(f"Cookie '{cookie_name}' deleted!", "success")
+    else:
+        flash("Please fill out the form!", "danger")
+    return response
+
+@users_bp.route("/delete-cookies", methods=["POST"])
+def delete_all_cookies():
+    response = make_response(redirect(url_for("users.profile")))
+    for cookie_name in request.cookies.keys():
+        response.delete_cookie(cookie_name)
+    flash("All cookies deleted!", "success")
+    return response
