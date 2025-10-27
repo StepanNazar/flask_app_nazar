@@ -1,0 +1,34 @@
+{% macro render_field(field) %}
+    <div class="mb-3">
+        {% if field.widget.input_type == 'checkbox' %}
+            <div class="form-check">
+                {{ field(class="form-check-input", **kwargs) | safe }}
+                {{ field.label(class="form-check-label") }}
+            </div>
+        {% else %}
+            {{ field.label(class="form-label") }}
+            {% if field.errors %}
+                {{ field(class="form-control is-invalid", **kwargs) | safe }}
+                <div class="invalid-feedback d-block">
+                    {% for error in field.errors %}
+                        <span>{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ field(class="form-control", **kwargs) | safe }}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_form(form, method="post", action="") %}
+    <form method="{{ method }}" action="{{ action }}" novalidate>
+        {{ form.hidden_tag() }}
+        {% for field in form if field not in [form.submit, form.hidden_tag, form.csrf_token] %}
+            {{ render_field(field) }}
+        {% endfor %}
+        <div class="d-grid gap-2">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+{% endmacro %}
