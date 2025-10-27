@@ -8,6 +8,7 @@ from flask import (
     make_response,
 )
 from . import users_bp
+from .forms import LoginForm
 
 
 @users_bp.route('/hi/')
@@ -24,16 +25,21 @@ def admin():
 
 @users_bp.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
+    form = LoginForm()
+    if form.validate_on_submit():
         users = [("admin", "admin"), ("user1", "password")]
-        username = request.form.get("username")
-        password = request.form.get("password")
+        username = form.username.data
+        password = form.password.data
+        remember_me = form.remember_me.data
         if (username, password) in users:
             session["username"] = username
-            flash("Login successful!", "success")
+            session.permanent = remember_me
+            message = f"Login successful! " + ("You will be remembered after closing your browser." if remember_me else "")
+            flash(message, "success")
             return redirect(url_for("users.profile"))
         flash("Incorrect username or password!", "danger")
-    return render_template("login.html")
+        return redirect(url_for("users.login"))
+    return render_template("login.html", login_form=form)
 
 @users_bp.route("/logout")
 def logout():
