@@ -3,13 +3,21 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask, render_template
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 from .config import Config
 
 
+db = SQLAlchemy()
+migrate = Migrate()
+
 def create_app(config: type[Config]):
     app = Flask(__name__)
     app.config.from_object(config)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     from .views import root_bp
     from .users import users_bp
