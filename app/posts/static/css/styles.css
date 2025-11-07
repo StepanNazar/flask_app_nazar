@@ -1,0 +1,53 @@
+/* Read Post Styles */
+
+
+article header h1 {
+    color: #2c3e50;
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+}
+
+article header .text-muted {
+    font-size: 0.95rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+article header .badge {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    text-transform: uppercase;
+}
+
+article section {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: #34495e;
+    padding: 2rem 0;
+}
+
+article .btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+article .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+article .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+article .btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+article .btn-secondary {
+    background-color: #95a5a6;
+    border-color: #95a5a6;
+}
