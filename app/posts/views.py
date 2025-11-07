@@ -46,6 +46,9 @@ def edit(id):
         flash(f"Post with id {id} not found.", "danger")
         return redirect(url_for("posts.all_posts"))
     form = PostForm(obj=post)
+    if not form.is_submitted():
+        form.category.data = post.category.value
+
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
