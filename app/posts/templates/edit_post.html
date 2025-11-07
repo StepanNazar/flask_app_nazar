@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from '_macros.html' import render_field %}
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Edit Post</h2>
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    {{ render_field(form.title) }}
+                    {{ render_field(form.content) }}
+                    {{ render_field(form.is_active) }}
+                    {{ render_field(form.category) }}
+                    <div class="d-grid gap-2">
+                        {{ form.submit(value="Update Post", class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

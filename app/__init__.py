@@ -23,11 +23,13 @@ def create_app(config: type[Config]):
     from .users import users_bp
     from .resume import resume_bp
     from .products import products_bp
+    from .posts import post_bp
 
     app.register_blueprint(root_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(resume_bp)
     app.register_blueprint(products_bp)
+    app.register_blueprint(post_bp)
 
     @app.errorhandler(404)
     def page_not_found(e):

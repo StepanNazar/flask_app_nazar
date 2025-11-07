@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Post {{ post.title }}{% endblock %}
+{% block head_extra %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('posts.static', filename='css/styles.css') }}">
+{% endblock %}
+
+{% block content %}
+<article class="container my-4">
+    <header class="mb-4">
+        <h1 class="display-4 mb-3">{{ post.title }}</h1>
+        <div class="text-muted d-flex flex-wrap gap-3">
+            <span><strong>Author:</strong> {{ post.author }}</span>
+            <span><strong>Category:</strong> <span class="badge bg-secondary">{{ post.category.value }}</span></span>
+            <span><strong>Posted:</strong> {{ post.posted.strftime('%Y-%m-%d %H:%M') }}</span>
+        </div>
+    </header>
+
+    <section class="mb-4">
+        {{ post.content|safe }}
+    </section>
+
+    <a href="{{ url_for('posts.edit', id=post.id) }}" class="btn btn-primary">Edit Post</a>
+    <a href="{{ url_for('posts.delete', id=post.id) }}" class="btn btn-danger">Delete Post</a>
+    <a href="{{ url_for('posts.all_posts') }}" class="btn btn-secondary">Back to All Posts</a>
+</article>
+{% endblock %}

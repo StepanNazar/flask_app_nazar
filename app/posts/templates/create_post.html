@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from '_macros.html' import render_form %}
+{% block title %}Create Post{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Create Post</h2>
+                {{ render_form(create_form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
