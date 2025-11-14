@@ -210,6 +210,5 @@ __marimo__/
 
 .idea
 
-migrations
 /app/app.db
 logs
