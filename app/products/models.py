@@ -7,7 +7,7 @@ from app import db
 
 
 class Product(db.Model):
-    __tablename_ = 'products'
+    __tablename__ = 'products'
     id: so.Mapped[int] = so.mapped_column(sa.Integer, primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String(100), nullable=False)
     price: so.Mapped[float] = so.mapped_column(sa.Float, nullable=False)
