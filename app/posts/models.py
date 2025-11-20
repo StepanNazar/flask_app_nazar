@@ -1,10 +1,14 @@
 import enum
 from datetime import datetime, timezone
+from typing import TYPE_CHECKING
 
 import sqlalchemy as sa
 from sqlalchemy import orm as so
 
 from app import db
+if TYPE_CHECKING:
+    from app.users.models import User
+
 
 class Category(enum.Enum):
     news = "news"
@@ -22,7 +26,8 @@ class Post(db.Model):
     )
     category: so.Mapped[Category] = so.mapped_column(sa.Enum(Category))
     is_active: so.Mapped[bool] = so.mapped_column(default=True)
-    author: so.Mapped[str] = so.mapped_column(sa.String(20), default="Anonymous")
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey("users.id"), nullable=True)
+    user: so.Mapped["User"] = so.relationship(back_populates="posts")
 
     def __repr__(self):
         return f"Post(id={self.id!r}, title={self.title!r}, category={self.category!r})"

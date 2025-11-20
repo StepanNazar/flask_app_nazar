@@ -14,6 +14,7 @@ class User(db.Model):
     username: so.Mapped[str] = so.mapped_column(sa.String(100), unique=True, nullable=False)
     email: so.Mapped[str] = so.mapped_column(sa.String(150), unique=True, nullable=False)
     password_hash: so.Mapped[str] = so.mapped_column(sa.String(256), nullable=False)
+    posts = so.relationship("Post", back_populates="user", cascade="all, delete-orphan")
 
     def __init__(self, password: str = "", *args, **kwargs):
         super().__init__(*args, **kwargs)
