@@ -16,6 +16,11 @@ class Category(enum.Enum):
     tech = "tech"
     other = "other"
 
+post_tags = db.Table(
+    'post_tags',
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id'), primary_key=True),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True)
+)
 
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -28,6 +33,13 @@ class Post(db.Model):
     is_active: so.Mapped[bool] = so.mapped_column(default=True)
     user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey("users.id"), nullable=True)
     user: so.Mapped["User"] = so.relationship(back_populates="posts")
+    tags: so.Mapped[list["Tag"]] = so.relationship(secondary=post_tags, back_populates="posts")
 
     def __repr__(self):
         return f"Post(id={self.id!r}, title={self.title!r}, category={self.category!r})"
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    name: so.Mapped[str] = so.mapped_column(sa.String, unique=True, nullable=False)
+    posts: so.Mapped[list["Post"]] = so.relationship(secondary=post_tags, back_populates="tags")
