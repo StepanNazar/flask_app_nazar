@@ -10,9 +10,16 @@
     <header class="mb-4">
         <h1 class="display-4 mb-3">{{ post.title }}</h1>
         <div class="text-muted d-flex flex-wrap gap-3">
-            <span><strong>Author:</strong> {{ post.author }}</span>
+            <span><strong>Author:</strong> {{ post.user.username }}</span>
             <span><strong>Category:</strong> <span class="badge bg-secondary">{{ post.category.value }}</span></span>
             <span><strong>Posted:</strong> {{ post.posted.strftime('%Y-%m-%d %H:%M') }}</span>
+            <span><strong>Tags:</strong>
+                {% for tag in post.tags %}
+                    <span class="badge bg-info text-dark">{{ tag.name }}</span>
+                {% else %}
+                    <span class="text-muted">No tags</span>
+                {% endfor %}
+            </span>
         </div>
     </header>
 
