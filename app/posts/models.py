@@ -43,3 +43,6 @@ class Tag(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String, unique=True, nullable=False)
     posts: so.Mapped[list["Post"]] = so.relationship(secondary=post_tags, back_populates="tags")
+
+    def repr(self):
+        return f"Tag(id={self.id!r}, name={self.name!r})"
