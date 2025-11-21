@@ -46,8 +46,13 @@ def edit(id):
         flash(f"Post with id {id} not found.", "danger")
         return redirect(url_for("posts.all_posts"))
     form = PostForm(obj=post)
+    # Remove validators from fields that should not be edited
+    del form.author_id
+    del form.posted
     if not form.is_submitted():
         form.category.data = post.category.value
+        form.is_active.data = post.is_active
+        form.tags.data = [tag.id for tag in post.tags]
 
     if form.validate_on_submit():
         post.title = form.title.data
