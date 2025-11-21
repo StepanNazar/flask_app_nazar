@@ -6,12 +6,13 @@ from wtforms import (
     SubmitField,
     BooleanField,
     DateTimeLocalField,
+    SelectMultipleField,
 )
 from wtforms.validators import Length, DataRequired
 import sqlalchemy as sa
 
 from app import db
-from app.posts.models import Category
+from app.posts.models import Category, Tag
 from app.users.models import User
 
 
@@ -22,6 +23,7 @@ class PostForm(FlaskForm):
     category = SelectField("Category", choices=[(cat.value, cat.name) for cat in Category], validators=[DataRequired()])
     posted = DateTimeLocalField('Publish Date', format="%Y-%m-%dT%H:%M")
     author_id = SelectField("Author", coerce=int)
+    tags = SelectMultipleField("Tags", coerce=int)
     submit = SubmitField("Add Post")
 
     def __init__(self, *args, **kwargs):
@@ -29,6 +31,10 @@ class PostForm(FlaskForm):
         self.author_id.choices = [
             (author.id, author.username)
             for author in db.session.execute(sa.select(User).order_by(User.id)).scalars().all()
+        ]
+        self.tags.choices = [
+            (tag.id, tag.name)
+            for tag in db.session.execute(sa.select(Tag).order_by(Tag.id)).scalars().all()
         ]
 
 class DeletePostForm(FlaskForm):
