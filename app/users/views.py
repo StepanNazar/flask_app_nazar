@@ -7,6 +7,8 @@ from flask import (
     session,
     make_response,
 )
+from flask_login import current_user, login_user, login_required, logout_user
+
 from app import db
 from . import users_bp
 from .forms import LoginForm, RegistrationForm
@@ -27,6 +29,9 @@ def admin():
 
 @users_bp.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("users.account"))
+
     form = LoginForm()
     if form.validate_on_submit():
         username = form.username.data
@@ -35,9 +40,7 @@ def login():
 
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
-            session["username"] = user.username
-            session["user_id"] = user.id
-            session.permanent = remember_me
+            login_user(user, remember=remember_me)
             message = f"Login successful! Welcome back, {user.username}!" + (
                 " You will be remembered after closing your browser." if remember_me else ""
             )
@@ -51,6 +54,9 @@ def login():
 
 @users_bp.route("/register", methods=["GET", "POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("users.account"))
+
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(
@@ -69,27 +75,15 @@ def register():
 
 @users_bp.route("/logout")
 def logout():
-    session.pop("username", None)
-    session.pop("user_id", None)
+    logout_user()
     flash("Logout successful!", "success")
     return redirect(url_for("users.login"))
 
 
 @users_bp.route("/account")
+@login_required
 def account():
-    """Display user account page"""
-    if "user_id" not in session:
-        flash("Please login first!", "danger")
-        return redirect(url_for("users.login"))
-
-    user = User.query.get(session["user_id"])
-    if not user:
-        session.pop("username", None)
-        session.pop("user_id", None)
-        flash("User not found. Please login again.", "danger")
-        return redirect(url_for("users.login"))
-
-    return render_template("account.html", user=user)
+    return render_template("account.html", user=current_user)
 
 @users_bp.route("/profile")
 def profile():
@@ -151,6 +145,7 @@ def delete_all_cookies():
 
 
 @users_bp.route("/users")
+@login_required
 def users_list():
     """Display list of all registered users"""
     all_users = User.query.all()

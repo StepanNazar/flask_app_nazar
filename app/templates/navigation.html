@@ -22,17 +22,26 @@
                     <a class="nav-link" href="{{ url_for('resume.contact') }}">Contacts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('users.login') }}">Login</a>
+                    <a class="nav-link" href="{{ url_for('posts.all_posts') }}">Posts</a>
                 </li>
+                {% if current_user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('users.register') }}">Register</a>
+                    <a class="nav-link" href="{{ url_for('users.account') }}">Account</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('users.profile') }}">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('posts.all_posts') }}">Posts</a>
+                    <a class="nav-link" href="{{ url_for('users.logout') }}">Logout</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('users.login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('users.register') }}">Register</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

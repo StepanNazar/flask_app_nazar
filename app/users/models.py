@@ -1,10 +1,16 @@
 import sqlalchemy as sa
+from flask_login import UserMixin
 from sqlalchemy import orm as so
 
-from app import db, bcrypt
+from app import db, bcrypt, login_manager
 
 
-class User(db.Model):
+@login_manager.user_loader
+def user_loader(user_id):
+    return User.query.get(int(user_id))
+
+
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(sa.String(100), unique=True, nullable=False)
