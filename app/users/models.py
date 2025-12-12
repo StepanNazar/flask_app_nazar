@@ -1,14 +1,16 @@
-import enum
-from datetime import datetime, timezone
-
 import sqlalchemy as sa
+from flask_login import UserMixin
 from sqlalchemy import orm as so
-from werkzeug.security import check_password_hash, generate_password_hash
 
-from app import db
+from app import db, bcrypt, login_manager
 
 
-class User(db.Model):
+@login_manager.user_loader
+def user_loader(user_id):
+    return User.query.get(int(user_id))
+
+
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(sa.String(100), unique=True, nullable=False)
@@ -21,12 +23,12 @@ class User(db.Model):
         self.set_password(password)
 
     def set_password(self, password: str) -> None:
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password: str) -> bool:
         if not isinstance(password, str):
             return False
-        return check_password_hash(self.password_hash, password)
+        return bcrypt.check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f"User(id={self.id!r}, username={self.username!r}, email={self.email!r})"
