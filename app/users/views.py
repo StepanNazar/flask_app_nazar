@@ -7,8 +7,10 @@ from flask import (
     session,
     make_response,
 )
+from app import db
 from . import users_bp
-from .forms import LoginForm
+from .forms import LoginForm, RegistrationForm
+from .models import User
 
 
 @users_bp.route('/hi/')
@@ -27,25 +29,67 @@ def admin():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        users = [("admin", "admin"), ("user1", "password")]
         username = form.username.data
         password = form.password.data
         remember_me = form.remember_me.data
-        if (username, password) in users:
-            session["username"] = username
+
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            session["username"] = user.username
+            session["user_id"] = user.id
             session.permanent = remember_me
-            message = f"Login successful! " + ("You will be remembered after closing your browser." if remember_me else "")
+            message = f"Login successful! Welcome back, {user.username}!" + (
+                " You will be remembered after closing your browser." if remember_me else ""
+            )
             flash(message, "success")
-            return redirect(url_for("users.profile"))
+            return redirect(url_for("users.account"))
+
         flash("Incorrect username or password!", "danger")
         return redirect(url_for("users.login"))
     return render_template("login.html", login_form=form)
 
+
+@users_bp.route("/register", methods=["GET", "POST"])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            password=form.password.data
+        )
+
+        db.session.add(user)
+        db.session.commit()
+
+        flash(f"Registration successful! Welcome, {user.username}! You can now log in.", "success")
+        return redirect(url_for("users.login"))
+
+    return render_template("register.html", registration_form=form)
+
 @users_bp.route("/logout")
 def logout():
     session.pop("username", None)
+    session.pop("user_id", None)
     flash("Logout successful!", "success")
     return redirect(url_for("users.login"))
+
+
+@users_bp.route("/account")
+def account():
+    """Display user account page"""
+    if "user_id" not in session:
+        flash("Please login first!", "danger")
+        return redirect(url_for("users.login"))
+
+    user = User.query.get(session["user_id"])
+    if not user:
+        session.pop("username", None)
+        session.pop("user_id", None)
+        flash("User not found. Please login again.", "danger")
+        return redirect(url_for("users.login"))
+
+    return render_template("account.html", user=user)
 
 @users_bp.route("/profile")
 def profile():
@@ -104,3 +148,11 @@ def delete_all_cookies():
         response.delete_cookie(cookie_name)
     flash("All cookies deleted!", "success")
     return response
+
+
+@users_bp.route("/users")
+def users_list():
+    """Display list of all registered users"""
+    all_users = User.query.all()
+    users_count = len(all_users)
+    return render_template("users_list.html", users=all_users, users_count=users_count)
