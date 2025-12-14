@@ -1,3 +1,7 @@
+import os
+import secrets
+from datetime import datetime, timezone
+from PIL import Image
 from flask import (
     render_template,
     request,
@@ -6,13 +10,47 @@ from flask import (
     flash,
     session,
     make_response,
+    current_app,
 )
 from flask_login import current_user, login_user, login_required, logout_user
 
 from app import db
 from . import users_bp
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, UpdateAccountForm, ChangePasswordForm
 from .models import User
+
+
+@users_bp.before_app_request
+def before_request():
+    """Update last_seen for authenticated users"""
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.now(timezone.utc)
+        db.session.commit()
+
+
+def save_picture(form_picture):
+    """Save uploaded profile picture and create thumbnail"""
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+
+    profile_pics_path = os.path.join(current_app.root_path, 'static/images/profile_pics')
+    thumbnails_path = os.path.join(current_app.root_path, 'static/images/profile_pics/thumbnails')
+    os.makedirs(profile_pics_path, exist_ok=True)
+    os.makedirs(thumbnails_path, exist_ok=True)
+    picture_path = os.path.join(profile_pics_path, picture_fn)
+    thumbnail_path = os.path.join(thumbnails_path, picture_fn)
+
+    i = Image.open(form_picture)
+    max_size = (400, 400)
+    i_original = i.copy()
+    i_original.thumbnail(max_size)
+    i_original.save(picture_path)
+    thumbnail_size = (128, 128)
+    i.thumbnail(thumbnail_size)
+    i.save(thumbnail_path)
+
+    return picture_fn
 
 
 @users_bp.route('/hi/')
@@ -80,10 +118,42 @@ def logout():
     return redirect(url_for("users.login"))
 
 
-@users_bp.route("/account")
+@users_bp.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
-    return render_template("account.html", user=current_user)
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('users.account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        form.about_me.data = current_user.about_me
+
+    image_file = url_for('static', filename='images/profile_pics/' + (current_user.image or 'profile_default.jpg'))
+    return render_template("account.html", user=current_user, form=form, image_file=image_file)
+
+
+@users_bp.route("/change-password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if current_user.check_password(form.current_password.data):
+            current_user.set_password(form.new_password.data)
+            db.session.commit()
+            flash('Your password has been changed!', 'success')
+            return redirect(url_for('users.account'))
+        else:
+            flash('Current password is incorrect!', 'danger')
+    return render_template("change_password.html", form=form)
 
 @users_bp.route("/profile")
 def profile():

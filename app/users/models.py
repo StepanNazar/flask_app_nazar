@@ -1,6 +1,8 @@
 import sqlalchemy as sa
+from datetime import datetime, timezone
 from flask_login import UserMixin
 from sqlalchemy import orm as so
+from typing import Optional
 
 from app import db, bcrypt, login_manager
 
@@ -16,6 +18,9 @@ class User(db.Model, UserMixin):
     username: so.Mapped[str] = so.mapped_column(sa.String(100), unique=True, nullable=False)
     email: so.Mapped[str] = so.mapped_column(sa.String(150), unique=True, nullable=False)
     password_hash: so.Mapped[str] = so.mapped_column(sa.String(256), nullable=False)
+    image: so.Mapped[Optional[str]] = so.mapped_column(sa.String(255), nullable=True, default='profile_default.jpg')
+    about_me: so.Mapped[Optional[str]] = so.mapped_column(sa.Text, nullable=True)
+    last_seen: so.Mapped[Optional[datetime]] = so.mapped_column(sa.DateTime, nullable=True, default=lambda: datetime.now(timezone.utc))
     posts = so.relationship("Post", back_populates="user", cascade="all, delete-orphan")
 
     def __init__(self, password: str = "", *args, **kwargs):
